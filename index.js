@@ -4,6 +4,7 @@ import cors from "cors"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import userRoutes from "./routes/userRoutes.js"
+import dormRoutes from "./routes/dormRoutes.js"
 
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "1mb", extended: true}))
 app.use(bodyParser.json({limit: "1mb", extended: true}))
 
 app.use("/users", userRoutes)
+app.use("/dorm", dormRoutes)
 
 const port = process.env.PORT || 3001
 

@@ -7,7 +7,7 @@ import User from "../models/User.js"
 dotenv.config()
 
 export const createUser = async (req, res) => {
-  const { email, pass } = req.body;
+  const { email, username, pass } = req.body;
   const foundUser = await User.findOne({ email });
   if (foundUser) {
     return res.status(401).json("User already exists");
@@ -23,6 +23,7 @@ export const createUser = async (req, res) => {
 
     const newUser = new User({
       email,
+      username,
       siteId,
       password: hash,
       salt,
@@ -44,7 +45,7 @@ export const createUser = async (req, res) => {
       message: "User signed up successfully",
     });
   } catch (error) {
-    return res.status(500).json(`Error in hashing password: ${error.message}`);
+    return res.status(500).json(`${error.message}`);
   }
 };
 
@@ -96,17 +97,8 @@ export const deleteUser = async (req, res) => {
 export const getProfile = async (req, res) => {
   const email = req.email
   const ownerId = req.siteId
-  const notes = await Note.find({ownerId})
-  let sum = 0;
-  for (const note of notes) {
-    if (note.completed) {
-      sum += 1;
-    }
-  }
   let profile = {
     email: req.email,
-    numNotes: notes.length,
-    numCompleted: sum
   }
   return res.status(200).json(profile)
 }
