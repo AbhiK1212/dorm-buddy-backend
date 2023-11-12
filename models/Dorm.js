@@ -9,7 +9,6 @@ const dormSchema = new mongoose.Schema({
   doorLastOpened: { type: Date, required: true },
   doorOpenedTimes: { type: Array, required: true },
   dormStatus: { type: String, required: true },
-  dormImage: { type: String, required: true },
   dormDescription: { type: String, required: true },
 })
 

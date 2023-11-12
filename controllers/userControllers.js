@@ -62,7 +62,7 @@ export const getUser = async (req, res) => {
     }
     const result = await bcrypt.compare(pass, newHash)
     if (result) {
-      const token = jwt.sign({userId: foundUser.siteId, email}, process.env.JWT_SECRET, {expiresIn: '7d'})
+      const token = jwt.sign({siteId: foundUser.siteId, email}, process.env.JWT_SECRET, {expiresIn: '7d'})
       return res.status(200).json({token, message: "User logged in successfully"})
     } else {
       return res.status(401).json("Incorrect password")

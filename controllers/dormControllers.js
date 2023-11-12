@@ -51,7 +51,7 @@ export const createDorm = async (req, res) => {
 export const getDormStatus = async (req, res) => {
   const siteId = req.siteId;
   if (!siteId) {
-    return res.status(401).json("Unauthorized");
+    return res.status(401).json("Unauthorized, siteId not provided");
   }
 
   const foundUser = await User.findOne({ siteId });
@@ -86,7 +86,7 @@ export const getDormStatus = async (req, res) => {
 export const updateDescription = async (req, res) => {
   const siteId = req.siteId;
   if (!siteId) {
-    return res.status(401).json("Unauthorized");
+    return res.status(401).json("Unauthorized, siteId not provided");
   }
 
   const foundUser = await User.findOne({ siteId });
@@ -104,4 +104,29 @@ export const updateDescription = async (req, res) => {
   }
 
   return res.status(200).json("Description updated successfully");
+}
+
+
+
+export const deleteDorm = async (req, res) => {
+  const siteId = req.siteId;
+  if (!siteId) {
+    return res.status(401).json("Unauthorized, siteId not provided");
+  }
+
+  const foundUser = await User.findOne({ siteId });
+
+  if (!foundUser) {
+    return res.status(401).json("User Not found");
+  }
+
+  const dormId = foundUser.dormId;
+
+  const deletedDorm = await Dorm.findOneAndDelete({ dormId });
+
+  if (!deletedDorm) {
+    return res.status(401).json("Failed to delete dorm");
+  }
+
+  res.status(200).json("Dorm deleted successfully");
 }
